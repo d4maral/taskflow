@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --border: #2a2a32;
+      --accent: #7c6aff;
+      --accent-glow: rgba(124, 106, 255, 0.25);
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --danger: #ff5f5f;
+      --success: #4ecb8d;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── Lado Esquerdo ── */
+    .hero {
+      background: linear-gradient(135deg, #0d0d0f 0%, #13101f 50%, #0a0a14 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 70%);
+      top: -200px; left: -100px;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(78,203,141,0.07) 0%, transparent 70%);
+      bottom: -100px; right: -50px;
+      pointer-events: none;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-headline {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .hero-headline span {
+      color: var(--accent);
+      position: relative;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 360px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      width: fit-content;
+      transition: border-color 0.2s;
+    }
+
+    .feature-pill:hover { border-color: var(--accent); color: var(--text); }
+
+    .feature-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── Lado Direito ── */
+    .form-side {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      border-left: 1px solid var(--border);
+      position: relative;
+    }
+
+    .form-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .form-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .form-header a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    .btn {
+      width: 100%;
+      padding: 0.95rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 28px var(--accent-glow); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .alert {
+      padding: 0.85rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+
+    .alert.error  { background: rgba(255,95,95,0.1);  border: 1px solid rgba(255,95,95,0.3);  color: var(--danger); }
+    .alert.success{ background: rgba(78,203,141,0.1); border: 1px solid rgba(78,203,141,0.3); color: var(--success);}
+    .alert.show   { display: block; }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 768px) {
+      body { grid-template-columns: 1fr; }
+      .hero { display: none; }
+      .form-side { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <aside class="hero">
+    <div class="logo">
+      <div class="logo-icon">✓</div>
+      <span class="logo-text">TaskFlow</span>
+    </div>
+    <h1 class="hero-headline">
+      Organize seu<br /><span>fluxo de trabalho</span><br />com clareza
+    </h1>
+    <p class="hero-sub">
+      Gerencie tarefas, defina prioridades e acompanhe o progresso — tudo em um lugar limpo e objetivo.
+    </p>
+    <div class="hero-features">
+      <div class="feature-pill"><span class="feature-dot"></span>Prioridades: baixa, média e alta</div>
+      <div class="feature-pill"><span class="feature-dot"></span>Status em tempo real</div>
+      <div class="feature-pill"><span class="feature-dot"></span>Estatísticas do seu progresso</div>
+    </div>
+  </aside>
+
+  <!-- ── Formulário ── -->
+  <main class="form-side">
+    <div class="form-header">
+      <h2>Bem-vindo de volta</h2>
+      <p>Não tem conta? <a href="/registro">Criar conta gratuita</a></p>
+    </div>
+
+    <div class="alert error" id="msg-erro"></div>
+    <div class="alert success" id="msg-ok"></div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" placeholder="voce@email.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="btn" id="btn-login" onclick="fazerLogin()">Entrar</button>
+
+    <div class="divider">ou</div>
+
+    <p style="text-align:center; font-size:0.85rem; color:var(--muted);">
+      Primeira vez aqui? <a href="/registro" style="color:var(--accent);text-decoration:none;font-weight:500;">Crie sua conta</a>
+    </p>
+  </main>
+
+  <script>
+    async function fazerLogin() {
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
+      const btn   = document.getElementById('btn-login');
+      const erro  = document.getElementById('msg-erro');
+      const ok    = document.getElementById('msg-ok');
+
+      erro.classList.remove('show'); ok.classList.remove('show');
+
+      if (!email || !senha) {
+        erro.textContent = 'Preencha e-mail e senha.';
+        erro.classList.add('show'); return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Entrando…';
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, senha })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          ok.textContent = `Bem-vindo, ${data.usuario.nome}! Redirecionando…`;
+          ok.classList.add('show');
+          setTimeout(() => window.location.href = '/tarefas', 800);
+        } else {
+          erro.textContent = data.erro || 'Erro ao fazer login.';
+          erro.classList.add('show');
+          btn.disabled = false; btn.textContent = 'Entrar';
+        }
+      } catch {
+        erro.textContent = 'Falha de conexão. Tente novamente.';
+        erro.classList.add('show');
+        btn.disabled = false; btn.textContent = 'Entrar';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
+  </script>
+</body>
+</html>

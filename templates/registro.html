@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — Criar Conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0f; --surface: #16161a; --border: #2a2a32;
+      --accent: #7c6aff; --accent-glow: rgba(124,106,255,0.25);
+      --text: #e8e8f0; --muted: #6b6b80;
+      --danger: #ff5f5f; --success: #4ecb8d;
+    }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text);
+           min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
+    .hero { background:linear-gradient(135deg,#0d0d0f 0%,#13101f 50%,#0a0a14 100%);
+            display:flex; flex-direction:column; justify-content:center; padding:4rem;
+            position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; width:600px; height:600px; border-radius:50%;
+      background:radial-gradient(circle,rgba(78,203,141,0.1) 0%,transparent 70%);
+      top:-200px; left:-100px; pointer-events:none; }
+    .logo { display:flex; align-items:center; gap:0.75rem; margin-bottom:4rem; }
+    .logo-icon { width:42px; height:42px; background:var(--accent); border-radius:10px;
+                 display:grid; place-items:center; font-size:1.3rem; box-shadow:0 0 24px var(--accent-glow); }
+    .logo-text { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; letter-spacing:-0.03em; }
+    .hero-headline { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2.4rem,4vw,3.2rem);
+                     line-height:1.1; letter-spacing:-0.04em; margin-bottom:1.5rem; }
+    .hero-headline span { color:var(--accent); }
+    .hero-sub { font-size:1.05rem; color:var(--muted); line-height:1.7; max-width:360px; font-weight:300; }
+    .form-side { background:var(--surface); display:flex; flex-direction:column; justify-content:center;
+                 padding:4rem; border-left:1px solid var(--border); }
+    .form-header { margin-bottom:2rem; }
+    .form-header h2 { font-family:'Syne',sans-serif; font-weight:700; font-size:1.9rem;
+                      letter-spacing:-0.03em; margin-bottom:0.5rem; }
+    .form-header p { color:var(--muted); font-size:0.9rem; }
+    .form-header a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .form-group { margin-bottom:1.1rem; }
+    label { display:block; font-size:0.82rem; font-weight:500; color:var(--muted);
+            margin-bottom:0.45rem; letter-spacing:0.04em; text-transform:uppercase; }
+    input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px;
+            color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.95rem;
+            padding:0.85rem 1.1rem; outline:none; transition:border-color .2s,box-shadow .2s; }
+    input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+    input::placeholder { color:var(--muted); }
+    .btn { width:100%; padding:0.95rem; background:var(--accent); color:#fff; border:none;
+           border-radius:10px; font-family:'Syne',sans-serif; font-weight:700; font-size:1rem;
+           cursor:pointer; margin-top:0.5rem; transition:opacity .2s,transform .15s,box-shadow .2s;
+           box-shadow:0 4px 20px var(--accent-glow); letter-spacing:0.02em; }
+    .btn:hover { opacity:.9; transform:translateY(-1px); box-shadow:0 8px 28px var(--accent-glow); }
+    .btn:active { transform:translateY(0); }
+    .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .alert { padding:0.85rem 1.1rem; border-radius:10px; font-size:0.88rem; margin-bottom:1.25rem; display:none; }
+    .alert.error  { background:rgba(255,95,95,0.1);  border:1px solid rgba(255,95,95,0.3);  color:var(--danger); }
+    .alert.success{ background:rgba(78,203,141,0.1); border:1px solid rgba(78,203,141,0.3); color:var(--success);}
+    .alert.show   { display:block; }
+    @media(max-width:768px){ body{grid-template-columns:1fr;} .hero{display:none;} .form-side{padding:2.5rem 1.5rem;} }
+  </style>
+</head>
+<body>
+  <aside class="hero">
+    <div class="logo">
+      <div class="logo-icon">✓</div>
+      <span class="logo-text">TaskFlow</span>
+    </div>
+    <h1 class="hero-headline">Comece a organizar<br /><span>do jeito certo</span></h1>
+    <p class="hero-sub">
+      Crie sua conta gratuita e tenha controle total das suas tarefas com prioridades, status e estatísticas em tempo real.
+    </p>
+  </aside>
+
+  <main class="form-side">
+    <div class="form-header">
+      <h2>Criar conta</h2>
+      <p>Já tem conta? <a href="/login">Fazer login</a></p>
+    </div>
+
+    <div class="alert error"   id="msg-erro"></div>
+    <div class="alert success" id="msg-ok"></div>
+
+    <div class="form-group">
+      <label for="nome">Nome completo</label>
+      <input type="text" id="nome" placeholder="Seu nome" autocomplete="name" />
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" placeholder="voce@email.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Mín. 6 caracteres" autocomplete="new-password" />
+    </div>
+
+    <button class="btn" id="btn-reg" onclick="registrar()">Criar minha conta</button>
+  </main>
+
+  <script>
+    async function registrar() {
+      const nome  = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
+      const btn   = document.getElementById('btn-reg');
+      const erro  = document.getElementById('msg-erro');
+      const ok    = document.getElementById('msg-ok');
+
+      erro.classList.remove('show'); ok.classList.remove('show');
+
+      if (!nome || !email || !senha) {
+        erro.textContent = 'Preencha todos os campos.'; erro.classList.add('show'); return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Criando…';
+
+      try {
+        const res  = await fetch('/api/registro', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ nome, email, senha })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          ok.textContent = 'Conta criada! Fazendo login…'; ok.classList.add('show');
+          const lr = await fetch('/api/login', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ email, senha })
+          });
+          if (lr.ok) { setTimeout(()=> window.location.href='/tarefas', 800); }
+        } else {
+          erro.textContent = data.erro || 'Erro ao criar conta.'; erro.classList.add('show');
+          btn.disabled = false; btn.textContent = 'Criar minha conta';
+        }
+      } catch {
+        erro.textContent = 'Falha de conexão.'; erro.classList.add('show');
+        btn.disabled = false; btn.textContent = 'Criar minha conta';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') registrar(); });
+  </script>
+</body>
+</html>
