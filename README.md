@@ -1,5 +1,8 @@
 # TaskFlow — Sistema de Lista de Tarefas
 
+**Disciplina:** Teste de Software  
+**Grupo:** Daniel Andrade, Jhonatan William e João Gabriel
+
 Aplicação Flask com frontend web completo, desenvolvida para suportar
 todos os tipos de testes da atividade acadêmica.
 

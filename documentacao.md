@@ -1,6 +1,6 @@
 # Documentação do Trabalho — Teste de Software
 **Disciplina:** Teste de Software  
-**Grupo:** Daniel Andrade e Jhonatan William  
+**Grupo:** Daniel Andrade, Jhonatan William e João Gabriel  
 **Aplicação:** TaskFlow — Sistema de Gerenciamento de Tarefas
 
 ---
